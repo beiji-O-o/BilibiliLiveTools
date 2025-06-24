@@ -1,10 +1,10 @@
 name: Build Linux x64
 
 on:
-  workflow_dispatch:  # 允许手动点击运行
+  workflow_dispatch:
   push:
     tags:
-      - 'v*'           # 也可以通过推送 tag 自动触发
+      - 'v*'
 
 jobs:
   build:
@@ -14,10 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Setup .NET 9 (preview)
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '7.x'
+          dotnet-version: '9.0.100-preview.3'
 
       - name: Restore dependencies
         run: dotnet restore src/BilibiliAutoLiver
