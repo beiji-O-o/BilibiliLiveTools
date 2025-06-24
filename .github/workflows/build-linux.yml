@@ -1,0 +1,42 @@
+name: Build Linux x64
+
+on:
+  workflow_dispatch:  # 允许手动点击运行
+  push:
+    tags:
+      - 'v*'           # 也可以通过推送 tag 自动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '7.x'
+
+      - name: Restore dependencies
+        run: dotnet restore src/BilibiliAutoLiver
+
+      - name: Build and publish
+        run: |
+          dotnet publish src/BilibiliAutoLiver \
+            -c Release \
+            -r linux-x64 \
+            --self-contained true \
+            -o publish/linux_x64
+
+      - name: Zip artifact
+        run: |
+          cd publish
+          zip -r BilibiliAutoLiver_Linux_x64.zip linux_x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BilibiliAutoLiver_Linux_x64
+          path: publish/BilibiliAutoLiver_Linux_x64.zip
