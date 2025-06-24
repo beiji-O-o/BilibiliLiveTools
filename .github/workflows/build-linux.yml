@@ -14,10 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup .NET 9 (preview)
+      - name: Setup .NET 9.0 SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.100-preview.3'
+          dotnet-version: '9.0.300'
 
       - name: Restore dependencies
         run: dotnet restore src/BilibiliAutoLiver
